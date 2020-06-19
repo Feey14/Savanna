@@ -1,0 +1,13 @@
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.exe
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.deps.json
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.runtimeconfig.json
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.runtimeconfig.dev.json
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.dll
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\Savanna.pdb
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.csprojAssemblyReference.cache
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.AssemblyInfoInputs.cache
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.AssemblyInfo.cs
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.csproj.CoreCompileInputs.cache
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.dll
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.pdb
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.genruntimeconfig.cache
