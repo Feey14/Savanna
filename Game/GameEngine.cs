@@ -8,15 +8,15 @@ namespace Savanna.Game
     {
         public int Width { get; set; } = 19;
         public int Height { get; set; } = 19;
-        public char[,] Matrix { get; set; }
+        public char[,] Field { get; set; }
         public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
 
-        public GameEngine() // Constructor class that creates Matrix
+        public GameEngine() // Constructor class that creates Field
         {
-            Matrix = new char[Width, Height];
+            Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    Matrix[x, y] = ' ';
+                    Field[x, y] = ' ';
         }
 
         public void PrintField()//Printing Game Field
@@ -27,7 +27,7 @@ namespace Savanna.Game
                 line.Clear();
                 for (int x = 0; x < Width; x++)
                 {
-                    line.Append(Matrix[x, y]);
+                    line.Append(Field[x, y]);
                 }
                 Console.WriteLine(line.Append("|"));// Printing line and right border symbol
             }
@@ -47,24 +47,11 @@ namespace Savanna.Game
             {
                 randomheight = random.Next(Height);
                 randomwidth = random.Next(Width);
-            } while (Matrix[randomwidth, randomheight] != ' ');
-
-            switch (animal)// Should be changed mby put it in animal function
-            {
-                case Animals.Lion lion:
-                    Matrix[randomwidth, randomheight] = lion.AnimalSymbol;
-                    lion.WidthCoordinate = randomwidth;
-                    lion.HeightCoordinate = randomheight;
-                    GameAnimals.Add(lion);
-                    break;
-
-                case Animals.Antelope antelope:
-                    Matrix[randomwidth, randomheight] = antelope.AnimalSymbol;
-                    antelope.WidthCoordinate = randomwidth;
-                    antelope.HeightCoordinate = randomheight;
-                    GameAnimals.Add(antelope);
-                    break;
-            }
+            } while (Field[randomwidth, randomheight] != ' ');
+            Field[randomwidth, randomheight] = animal.AnimalSymbol;
+            animal.WidthCoordinate = randomwidth;
+            animal.HeightCoordinate = randomheight;
+            GameAnimals.Add(animal);
         }
 
         public void Iterate()
@@ -72,9 +59,16 @@ namespace Savanna.Game
             List<Animals.Animal> newlist = new List<Animals.Animal>(GameAnimals);
             foreach (Animals.Animal animal in GameAnimals)
             {
-                Matrix[animal.WidthCoordinate, animal.HeightCoordinate] = ' ';
-                animal.Move(this, newlist);
-                Matrix[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
+                if (animal.Health > 0)
+                {
+                    Field[animal.WidthCoordinate, animal.HeightCoordinate] = ' ';
+                    animal.Move(this);
+                    Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
+                }
+                if(animal.Health <= 0)
+                {
+                    animal.Die();
+                }
             }
             GameAnimals = newlist;
         }
