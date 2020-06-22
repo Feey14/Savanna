@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Savanna.Game
 {
@@ -8,19 +9,18 @@ namespace Savanna.Game
     {
         public int Width { get; set; } = 19;
         public int Height { get; set; } = 19;
-        public char[,] Field { get; set; }
         public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
-
-        public GameEngine()
+        public void PrintField()
         {
-            Field = new char[Width, Height];
+            char [,] Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                     Field[x, y] = ' ';
-        }
+            foreach (var animal in GameAnimals)
+            {
+                Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
+            }
 
-        public void PrintField()
-        {
             StringBuilder line = new StringBuilder();
             for (int y = 0; y < Height; y++)
             {
@@ -47,12 +47,12 @@ namespace Savanna.Game
             {
                 randomheight = random.Next(Height);
                 randomwidth = random.Next(Width);
-            } while (Field[randomwidth, randomheight] != ' ');
-            Field[randomwidth, randomheight] = animal.AnimalSymbol;
+            } while (GameAnimals.Any(animal => animal.WidthCoordinate == randomwidth && animal.HeightCoordinate == randomheight));
             animal.WidthCoordinate = randomwidth;
             animal.HeightCoordinate = randomheight;
             GameAnimals.Add(animal);
         }
+
         /// <summary>
         /// To make it more conviniet and meke it easier to follow the game. Lions make moves first
         /// </summary>
@@ -61,8 +61,8 @@ namespace Savanna.Game
             SortAnimals();
             for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
-                if (GameAnimals[i] is Animals.Lion) 
-                { 
+                if (GameAnimals[i] is Animals.Lion)
+                {
                     IteratingProcess(i);
                 }
             }
@@ -74,9 +74,9 @@ namespace Savanna.Game
                 }
             }
         }
+
         public void IteratingProcess(int i)
         {
-            Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = ' ';
             GameAnimals[i].Move(this);
             {
                 if (GameAnimals[i].Health < 0)
@@ -84,12 +84,9 @@ namespace Savanna.Game
                     GameAnimals[i].Die(this);
                     return;
                 }
-                else
-                {
-                    Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = GameAnimals[i].AnimalSymbol;
-                }
             }
         }
+
         /// <summary>
         /// Sorting Animal List by type
         /// </summary>

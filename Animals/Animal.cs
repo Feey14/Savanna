@@ -1,5 +1,7 @@
 ﻿using Savanna.Game;
 using System;
+using System.Linq;
+
 namespace Savanna.Animals
 {
     public abstract class Animal
@@ -14,8 +16,8 @@ namespace Savanna.Animals
         public void Die(GameEngine game)
         {
             game.GameAnimals.Remove(this);
-            game.Field[WidthCoordinate, HeightCoordinate] = ' ';
         }
+
         public void Stray(GameEngine game)
         {
             Random random = new Random();
@@ -24,7 +26,7 @@ namespace Savanna.Animals
             {
                 x = WidthCoordinate + random.Next(2 + 1) - 1;
                 y = HeightCoordinate + random.Next(2 + 1) - 1;
-            } while (x < 0 || y < 0 || x >= game.Width || y >= game.Height || game.Field[x, y] != ' ');
+            } while (x < 0 || y < 0 || x >= game.Width || y >= game.Height || game.GameAnimals.Any(animal => animal.WidthCoordinate == x && animal.HeightCoordinate == y));
             WidthCoordinate = x;
             HeightCoordinate = y;
         }
