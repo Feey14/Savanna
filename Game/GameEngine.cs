@@ -11,7 +11,7 @@ namespace Savanna.Game
         public char[,] Field { get; set; }
         public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
 
-        public GameEngine() // Constructor class that creates Field
+        public GameEngine()
         {
             Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
@@ -19,7 +19,7 @@ namespace Savanna.Game
                     Field[x, y] = ' ';
         }
 
-        public void PrintField()//Printing Game Field
+        public void PrintField()
         {
             StringBuilder line = new StringBuilder();
             for (int y = 0; y < Height; y++)
@@ -29,14 +29,14 @@ namespace Savanna.Game
                 {
                     line.Append(Field[x, y]);
                 }
-                Console.WriteLine(line.Append("|"));// Printing line and right border symbol
+                Console.WriteLine(line.Append("|"));
             }
             line.Clear();
-            for (int x = 0; x <= Width; x++)// Getting bottom border string
+            for (int x = 0; x <= Width; x++)
             {
                 line.Append("-");
             }
-            Console.WriteLine(line.ToString());//Printing bottom border
+            Console.WriteLine(line.ToString());
         }
 
         public void AddAnimal(Animals.Animal animal)
@@ -53,24 +53,49 @@ namespace Savanna.Game
             animal.HeightCoordinate = randomheight;
             GameAnimals.Add(animal);
         }
-
+        /// <summary>
+        /// To make it more conviniet and meke it easier to follow the game. Lions make moves first
+        /// </summary>
         public void Iterate()
         {
-            List<Animals.Animal> newlist = new List<Animals.Animal>(GameAnimals);
-            foreach (Animals.Animal animal in GameAnimals)
+            SortAnimals();
+            for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
-                if (animal.Health > 0)
-                {
-                    Field[animal.WidthCoordinate, animal.HeightCoordinate] = ' ';
-                    animal.Move(this);
-                    Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
-                }
-                if(animal.Health <= 0)
-                {
-                    animal.Die();
+                if (GameAnimals[i] is Animals.Lion) 
+                { 
+                    IteratingProcess(i);
                 }
             }
-            GameAnimals = newlist;
+            for (int i = GameAnimals.Count - 1; i >= 0; i--)
+            {
+                if (GameAnimals[i] is Animals.Antelope)
+                {
+                    IteratingProcess(i);
+                }
+            }
+        }
+        public void IteratingProcess(int i)
+        {
+            Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = ' ';
+            GameAnimals[i].Move(this);
+            {
+                if (GameAnimals[i].Health < 0)
+                {
+                    GameAnimals[i].Die(this);
+                    return;
+                }
+                else
+                {
+                    Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = GameAnimals[i].AnimalSymbol;
+                }
+            }
+        }
+        /// <summary>
+        /// Sorting Animal List by type
+        /// </summary>
+        public void SortAnimals()
+        {
+            GameAnimals.Sort((a, b) => a.GetType().FullName.CompareTo(b.GetType().FullName));
         }
     }
 }

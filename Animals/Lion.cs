@@ -1,33 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Savanna.Animals
 {
     internal class Lion : Animal
     {
         public override char AnimalSymbol { get { return 'L'; } }
-        public override double Health { get; set; } = 50;
+        public override double Health { get; set; } = 20;
+
         public override void Move(Game.GameEngine game)
         {
             if (EatNearbyAntelope(game)) { }
-            else
-            {
-                Random random = new Random();
-                int x, y;
-                do
-                {
-                    x = WidthCoordinate + random.Next(2 + 1) - 1;
-                    y = HeightCoordinate + random.Next(2 + 1) - 1;
-                } while (x < 0 || y < 0 || x >= game.Width || y >= game.Height || game.Field[x, y] != ' ');
-                WidthCoordinate = x;
-                HeightCoordinate = y;
-            }
+            else if (ChaseNearbyAntelope(game)) { }
+            else Stray(game);
+            Health -= 0.5;
         }
 
         public bool EatNearbyAntelope(Game.GameEngine game)
         {
-            for (int widthvisionrange = -1; widthvisionrange <= 1; widthvisionrange++)
-                for (int heightvisionrange = -1; heightvisionrange <= 1; heightvisionrange++)
+            int visionrange = 1;
+            for (int widthvisionrange = -visionrange; widthvisionrange <= visionrange; widthvisionrange++)
+                for (int heightvisionrange = -visionrange; heightvisionrange <= visionrange; heightvisionrange++)
                     if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) break;
                     else
                     if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'A')
@@ -38,14 +30,33 @@ namespace Savanna.Animals
                                 return an.WidthCoordinate == WidthCoordinate + widthvisionrange && an.HeightCoordinate == HeightCoordinate + heightvisionrange;
                             }
                             );
-                        //newlist.Remove(result);
+                        result.Health = 0;
                         WidthCoordinate += widthvisionrange;
                         HeightCoordinate += heightvisionrange;
-                        //game.Field[WidthCoordinate, HeightCoordinate] = 'L';
-                        Health = 50;
+                        Health = 20;
+                        game.Field[WidthCoordinate, HeightCoordinate] = 'L';
                         return true;
                     }
-            Health -= 0.5;
+            return false;
+        }
+
+        public bool ChaseNearbyAntelope(Game.GameEngine game)
+        {
+            int visionrange = 5;
+            for (int widthvisionrange = -visionrange; widthvisionrange <= visionrange; widthvisionrange++)
+                for (int heightvisionrange = -visionrange; heightvisionrange <= visionrange; heightvisionrange++)
+                {
+                    if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) continue;
+                    else
+                        if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'A')
+                    {
+                        if (WidthCoordinate + widthvisionrange > WidthCoordinate) WidthCoordinate += 1;
+                        else if (WidthCoordinate + widthvisionrange < WidthCoordinate) WidthCoordinate -= 1;
+                        if (HeightCoordinate + heightvisionrange > HeightCoordinate) HeightCoordinate += 1;
+                        else if (HeightCoordinate + heightvisionrange < HeightCoordinate) HeightCoordinate -= 1;
+                        return true;
+                    }
+                }
             return false;
         }
     }
