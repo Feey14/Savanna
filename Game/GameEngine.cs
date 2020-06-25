@@ -12,10 +12,11 @@ namespace Savanna.Game
         public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
         public void PrintField()
         {
-            char [,] Field = new char[Width, Height];
+            char[,] Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                     Field[x, y] = ' ';
+
             foreach (var animal in GameAnimals)
             {
                 Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
