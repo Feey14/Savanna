@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Savanna.Animals
+﻿namespace Savanna.Animals
 
 {
     internal class Antelope : Animal
@@ -24,25 +22,31 @@ namespace Savanna.Animals
                 {
                     if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) continue;
                     else
-                        if (game.GameAnimals.Find(animal => animal.WidthCoordinate == WidthCoordinate + widthvisionrange && animal.HeightCoordinate == HeightCoordinate + heightvisionrange) is Lion)
+                        if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'L')
                     {
                         int targetwidthcoord = WidthCoordinate + widthvisionrange;
                         int targetheightcoord = HeightCoordinate + heightvisionrange;
 
-                        if (targetwidthcoord == WidthCoordinate && WidthCoordinate > 0 && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate - 1 && animal.WidthCoordinate == HeightCoordinate)) WidthCoordinate -= 1;
-                        else if (targetwidthcoord == WidthCoordinate && WidthCoordinate < game.Width - 1 && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate + 1 && animal.WidthCoordinate == HeightCoordinate)) WidthCoordinate += 1;
-                        else if (WidthCoordinate > 0 && WidthCoordinate < game.Width - 1)
+                        if (WidthCoordinate > 0)
                         {
-                            if (targetwidthcoord > WidthCoordinate && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate - 1 && animal.WidthCoordinate == HeightCoordinate)) WidthCoordinate -= 1;
-                            else if (targetwidthcoord < WidthCoordinate && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate + 1 && animal.WidthCoordinate == HeightCoordinate)) WidthCoordinate += 1;
+                            if (targetwidthcoord > WidthCoordinate && WidthCoordinate > 0 && game.Field[WidthCoordinate - 1, HeightCoordinate] == ' ') WidthCoordinate -= 1;
+                            else if (targetwidthcoord == WidthCoordinate && WidthCoordinate < game.Width - 1 && game.Field[WidthCoordinate - 1, HeightCoordinate] == ' ') WidthCoordinate -= 1;
+                        }
+                        else if (WidthCoordinate < game.Width - 1)
+                        {
+                            if (targetwidthcoord < WidthCoordinate && WidthCoordinate < game.Width - 1 && game.Field[WidthCoordinate + 1, HeightCoordinate] == ' ') WidthCoordinate += 1;
+                            else if (targetwidthcoord == WidthCoordinate && WidthCoordinate < game.Width - 1 && game.Field[WidthCoordinate + 1, HeightCoordinate] == ' ') WidthCoordinate += 1;
                         }
 
-                        if (targetheightcoord == HeightCoordinate && HeightCoordinate > 0 && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate && animal.HeightCoordinate == HeightCoordinate - 1)) HeightCoordinate -= 1;
-                        else if (targetheightcoord == HeightCoordinate && HeightCoordinate <= game.Height - 1 && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate && animal.HeightCoordinate == HeightCoordinate + 1)) HeightCoordinate += 1;
-                        else if (HeightCoordinate > 0 && HeightCoordinate < game.Height - 1)
+                        if (HeightCoordinate > 0)
                         {
-                            if (targetheightcoord > HeightCoordinate && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate && animal.HeightCoordinate == HeightCoordinate - 1)) HeightCoordinate -= 1;
-                            else if (targetheightcoord < HeightCoordinate && !game.GameAnimals.Any(animal => animal.WidthCoordinate == WidthCoordinate && animal.HeightCoordinate == HeightCoordinate + 1)) HeightCoordinate += 1;
+                            if (targetheightcoord > HeightCoordinate && HeightCoordinate > 0 && game.Field[WidthCoordinate, HeightCoordinate - 1] == ' ') HeightCoordinate -= 1;
+                            else if (targetheightcoord == HeightCoordinate && HeightCoordinate < game.Width - 1 && game.Field[WidthCoordinate, HeightCoordinate - 1] == ' ') HeightCoordinate -= 1;
+                        }
+                        else if (HeightCoordinate < game.Height - 1)
+                        {
+                            if (targetheightcoord < HeightCoordinate && HeightCoordinate > game.Height - 1 && game.Field[WidthCoordinate, HeightCoordinate + 1] == ' ') HeightCoordinate += 1;
+                            else if (targetheightcoord == HeightCoordinate && HeightCoordinate < game.Width - 1 && game.Field[WidthCoordinate, HeightCoordinate + 1] == ' ') HeightCoordinate += 1;
                         }
                         return true;
                     }

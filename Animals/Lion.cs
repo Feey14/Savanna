@@ -18,9 +18,9 @@
             int visionrange = 1;
             for (int widthvisionrange = -visionrange; widthvisionrange <= visionrange; widthvisionrange++)
                 for (int heightvisionrange = -visionrange; heightvisionrange <= visionrange; heightvisionrange++)
-                    if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) break;
+                    if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) continue;
                     else
-                        if (game.GameAnimals.Find(animal => animal.WidthCoordinate == WidthCoordinate + widthvisionrange && animal.HeightCoordinate == HeightCoordinate + heightvisionrange) is Antelope)
+                        if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'A')
                     {
                         var result = game.GameAnimals.Find(
                             delegate (Animal an)
@@ -34,6 +34,7 @@
                             WidthCoordinate += widthvisionrange;
                             HeightCoordinate += heightvisionrange;
                             Health = 20;
+                            game.Field[WidthCoordinate, HeightCoordinate] = 'L';
                         }
                         return true;
                     }
@@ -48,14 +49,14 @@
                 {
                     if (WidthCoordinate + widthvisionrange < 0 || WidthCoordinate + widthvisionrange >= game.Width || HeightCoordinate + heightvisionrange < 0 || HeightCoordinate + heightvisionrange >= game.Height) continue;
                     else
-                        if (game.GameAnimals.Find(animal => animal.WidthCoordinate == WidthCoordinate + widthvisionrange && animal.HeightCoordinate == HeightCoordinate + heightvisionrange) is Antelope)
+                        if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'A')
                     {
                         int targetwidthcoord = WidthCoordinate + widthvisionrange;
                         int targetheightcoord = HeightCoordinate + heightvisionrange;
-                        if (targetwidthcoord > WidthCoordinate && !game.GameAnimals.Exists(animal => animal.WidthCoordinate == targetwidthcoord + 1 && animal.HeightCoordinate == targetheightcoord)) WidthCoordinate += 1;
-                        else if (targetwidthcoord < WidthCoordinate && !game.GameAnimals.Exists(animal => animal.WidthCoordinate == targetwidthcoord - 1 && animal.HeightCoordinate == targetheightcoord)) WidthCoordinate -= 1;
-                        if (targetheightcoord > HeightCoordinate && !game.GameAnimals.Exists(animal => animal.WidthCoordinate == targetwidthcoord && animal.HeightCoordinate == targetheightcoord + 1)) HeightCoordinate += 1;
-                        else if (targetheightcoord < HeightCoordinate && !game.GameAnimals.Exists(animal => animal.WidthCoordinate == targetwidthcoord && animal.HeightCoordinate == targetheightcoord - 1)) HeightCoordinate -= 1;
+                        if (targetwidthcoord > WidthCoordinate && game.Field[WidthCoordinate + 1, HeightCoordinate] == ' ') WidthCoordinate += 1;
+                        else if (targetwidthcoord < WidthCoordinate && game.Field[WidthCoordinate - 1, HeightCoordinate] == ' ') WidthCoordinate -= 1;
+                        if (targetheightcoord > HeightCoordinate && game.Field[WidthCoordinate, HeightCoordinate + 1] == ' ') HeightCoordinate += 1;
+                        else if (targetheightcoord < HeightCoordinate && game.Field[WidthCoordinate, HeightCoordinate - 1] == ' ') HeightCoordinate -= 1;
                         return true;
                     }
                 }

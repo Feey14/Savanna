@@ -5,7 +5,7 @@ namespace Savanna
 {
     internal class GameTimer
     {
-        public void StartTimer(Game.GameEngine game)//Timer for displaying one game
+        public void StartTimer(Game.GameEngine game)
         {
             Timer timer = new Timer(1000);
 
@@ -38,7 +38,7 @@ namespace Savanna
             timer.Dispose();
         }
 
-        private void TimerTick(Game.GameEngine game)//Single timer tick function iterates games and prints them
+        private void TimerTick(Game.GameEngine game)
         {
             game.Iterate();
             Console.Clear();

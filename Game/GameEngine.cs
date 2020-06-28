@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
 
 namespace Savanna.Game
 {
@@ -9,14 +8,19 @@ namespace Savanna.Game
     {
         public int Width { get; set; } = 19;
         public int Height { get; set; } = 19;
+        public char[,] Field { get; set; }
         public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
-        public void PrintField()
+
+        public GameEngine()
         {
-            char[,] Field = new char[Width, Height];
+            Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                     Field[x, y] = ' ';
+        }
 
+        public void PrintField()
+        {
             foreach (var animal in GameAnimals)
             {
                 Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
@@ -48,7 +52,7 @@ namespace Savanna.Game
             {
                 randomheight = random.Next(Height);
                 randomwidth = random.Next(Width);
-            } while (GameAnimals.Any(animal => animal.WidthCoordinate == randomwidth && animal.HeightCoordinate == randomheight));
+            } while (Field[randomwidth, randomheight] != ' ');
             animal.WidthCoordinate = randomwidth;
             animal.HeightCoordinate = randomheight;
             GameAnimals.Add(animal);
@@ -78,13 +82,16 @@ namespace Savanna.Game
 
         public void IteratingProcess(int i)
         {
+            Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = ' ';
             GameAnimals[i].Move(this);
+            if (GameAnimals[i].Health < 0)
             {
-                if (GameAnimals[i].Health < 0)
-                {
-                    GameAnimals[i].Die(this);
-                    return;
-                }
+                GameAnimals[i].Die(this);
+                return;
+            }
+            else
+            {
+                Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = GameAnimals[i].AnimalSymbol;
             }
         }
 
