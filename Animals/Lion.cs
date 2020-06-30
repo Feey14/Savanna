@@ -4,15 +4,23 @@
     {
         public override char AnimalSymbol { get { return 'L'; } }
         public override double Health { get; set; } = 20;
+        /// <summary>
+        /// Defines Lion logic and how they move
+        /// Eat Antelipe>ChaseAntelope>Breed>Stray
+        /// </summary>
 
         public override void Move(Game.GameEngine game)
         {
             if (EatNearbyAntelope(game)) { }
             else if (ChaseNearbyAntelope(game)) { }
+            else if (Breed(game)) { }
             else Stray(game);
             Health -= 0.5;
         }
-
+        /// <summary>
+        /// Checks for narbyAntelope
+        /// Defines What happens when antelope is eaten
+        /// </summary>
         public bool EatNearbyAntelope(Game.GameEngine game)
         {
             int visionrange = 1;
@@ -40,7 +48,9 @@
                     }
             return false;
         }
-
+        /// <summary>
+        /// Defines How Lion moves when chasing antelope
+        /// </summary>
         public bool ChaseNearbyAntelope(Game.GameEngine game)
         {
             int visionrange = 6;

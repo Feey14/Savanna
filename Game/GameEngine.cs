@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Savanna.Animals;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,8 @@ namespace Savanna.Game
         public int Width { get; set; } = 19;
         public int Height { get; set; } = 19;
         public char[,] Field { get; set; }
-        public List<Animals.Animal> GameAnimals { get; set; } = new List<Animals.Animal>();
+        public List<Animal> GameAnimals { get; set; } = new List<Animal>();
+        public List<BabyAnimal> UnbornAnimals { get; set; } = new List<BabyAnimal>();
 
         public GameEngine()
         {
@@ -59,28 +61,23 @@ namespace Savanna.Game
         }
 
         /// <summary>
-        /// To make it more conviniet and meke it easier to follow the game. Lions make moves first
+        /// To make it more conviniet and meke it easier to follow the game. Lions make moves first its acheived by sorting animal list
         /// </summary>
         public void Iterate()
         {
             SortAnimals();
             for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
-                if (GameAnimals[i] is Animals.Lion)
-                {
-                    IteratingProcess(i);
-                }
+                IteratingProcess(i);
             }
-            for (int i = GameAnimals.Count - 1; i >= 0; i--)
+            for (int i = UnbornAnimals.Count - 1; i >= 0; i--)
             {
-                if (GameAnimals[i] is Animals.Antelope)
-                {
-                    IteratingProcess(i);
-                }
+                if (UnbornAnimals[i].Move(this) == false)
+                    UnbornAnimals[i].Die(this);
             }
         }
 
-        public void IteratingProcess(int i)
+        protected void IteratingProcess(int i)
         {
             Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = ' ';
             GameAnimals[i].Move(this);
@@ -98,7 +95,7 @@ namespace Savanna.Game
         /// <summary>
         /// Sorting Animal List by type
         /// </summary>
-        public void SortAnimals()
+        protected void SortAnimals()
         {
             GameAnimals.Sort((a, b) => a.GetType().FullName.CompareTo(b.GetType().FullName));
         }

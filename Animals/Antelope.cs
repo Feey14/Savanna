@@ -6,14 +6,19 @@
         public override char AnimalSymbol { get { return 'A'; } }
 
         public override double Health { get; set; } = 20;
-
+        /// <summary>
+        /// Specifies Antelopes logic on how it moves their priorities are Run From a Lion > Breed > Stray
+        /// </summary>
         public override void Move(Game.GameEngine game)
         {
             if (RetreatFromALion(game)) { }
+            else if (Breed(game)) { }
             else Stray(game);
             Health -= 0.5;
         }
-
+        /// <summary>
+        /// Function declarates how Antelope moves when running from a lion
+        /// </summary>
         public bool RetreatFromALion(Game.GameEngine game)
         {
             int visionrange = 6;
