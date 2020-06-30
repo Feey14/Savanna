@@ -17,6 +17,7 @@
             else Stray(game);
             Health -= 0.5;
         }
+
         /// <summary>
         /// Checks for narbyAntelope
         /// Defines What happens when antelope is eaten
@@ -30,7 +31,7 @@
                     else
                         if (game.Field[WidthCoordinate + widthvisionrange, HeightCoordinate + heightvisionrange] == 'A')
                     {
-                        var result = game.GameAnimals.Find(
+                        Animal result = game.GameAnimals.Find(
                             delegate (Animal an)
                             {
                                 return an.WidthCoordinate == WidthCoordinate + widthvisionrange && an.HeightCoordinate == HeightCoordinate + heightvisionrange;
@@ -48,6 +49,7 @@
                     }
             return false;
         }
+
         /// <summary>
         /// Defines How Lion moves when chasing antelope
         /// </summary>

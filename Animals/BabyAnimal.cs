@@ -12,6 +12,7 @@ namespace Savanna.Animals
         public int Parent2WidthCoordinates { get; set; }
         public int Parent1Heightcoordinates { get; set; }
         public int Parent2Heightcoordinates { get; set; }
+
         /// <summary>
         /// constructor that captures parent data
         /// </summary>
@@ -24,6 +25,7 @@ namespace Savanna.Animals
             Parent1Heightcoordinates = Parent1.HeightCoordinate;
             Parent2Heightcoordinates = Parent2.HeightCoordinate;
         }
+
         /// <summary>
         /// Move function for BabyAnimal makes new animal if 3 rounds passed
         /// also checks if all criterias for baby to be born are completed such as parents didnt move etc
@@ -33,7 +35,7 @@ namespace Savanna.Animals
             if (Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return false;
             if (RoundCount == 3)
             {
-                var classname = Parent1.GetType();
+                Type classname = Parent1.GetType();
                 Animal an = (Animal)Activator.CreateInstance(classname);
                 an.WidthCoordinate = 18;
                 an.HeightCoordinate = 18;

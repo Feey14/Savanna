@@ -1,10 +1,16 @@
-﻿using Savanna.Game;
+﻿using Savanna.Animals;
+using Savanna.Game;
 using System;
 
 namespace Savanna
 {
     internal class UserInput
     {
+        private static void AddAnimalToTheGame(Animal animal, GameEngine game)
+        {
+            game.AddAnimal(animal);
+        }
+
         public void AddAnimal(GameEngine game)
         {
             ConsoleKey input;
@@ -14,13 +20,11 @@ namespace Savanna
                 switch (input)
                 {
                     case ConsoleKey.A:
-                        Animals.Antelope antelope = new Animals.Antelope();
-                        game.AddAnimal(antelope);
+                        AddAnimalToTheGame(new Antelope(), game);
                         break;
 
                     case ConsoleKey.L:
-                        Animals.Lion lion = new Animals.Lion();
-                        game.AddAnimal(lion);
+                        AddAnimalToTheGame(new Lion(), game);
                         break;
 
                     default:

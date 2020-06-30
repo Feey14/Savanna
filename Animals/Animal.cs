@@ -12,6 +12,7 @@ namespace Savanna.Animals
         public abstract char AnimalSymbol { get; }
 
         public abstract void Move(GameEngine game);
+
         /// <summary>
         /// Deletes Animal from the game
         /// </summary>
@@ -21,6 +22,7 @@ namespace Savanna.Animals
             game.GameAnimals.Remove(this);
             game.Field[WidthCoordinate, HeightCoordinate] = ' ';
         }
+
         /// <summary>
         /// Function that makes animal stray in random direction if field is empty
         /// </summary>
@@ -38,6 +40,7 @@ namespace Savanna.Animals
             HeightCoordinate = y;
             game.Field[WidthCoordinate, HeightCoordinate] = AnimalSymbol;
         }
+
         /// <summary>
         /// Breed function makes BabyAnimal and if parent are in the same position for 3 rounds animal is born
         /// </summary>
@@ -46,15 +49,15 @@ namespace Savanna.Animals
             if (game.UnbornAnimals.Any(unbornanimal => unbornanimal.Parent1 == this || unbornanimal.Parent2 == this)) return true;
             if (WidthCoordinate > 0 && game.Field[WidthCoordinate - 1, HeightCoordinate] == AnimalSymbol)
             {
-                var result = game.GameAnimals.Find(
+                Animal result = game.GameAnimals.Find(
                 delegate (Animal an)
                 {
                     return an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate;
                 }
                 );
-                BabyAnimal testanimal = new BabyAnimal(this, result);
-                testanimal.Move(game);
-                game.UnbornAnimals.Add(testanimal);
+                BabyAnimal child = new BabyAnimal(this, result);
+                child.Move(game);
+                game.UnbornAnimals.Add(child);
                 return true;
             }
             return false;

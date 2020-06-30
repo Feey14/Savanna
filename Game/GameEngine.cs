@@ -23,7 +23,7 @@ namespace Savanna.Game
 
         public void PrintField()
         {
-            foreach (var animal in GameAnimals)
+            foreach (Animal animal in GameAnimals)
             {
                 Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
             }

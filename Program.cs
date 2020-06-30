@@ -1,6 +1,4 @@
-﻿using Savanna.Animals;
-
-namespace Savanna
+﻿namespace Savanna
 {
     internal class Program
     {
