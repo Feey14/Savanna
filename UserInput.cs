@@ -20,11 +20,11 @@ namespace Savanna
                 switch (input)
                 {
                     case ConsoleKey.A:
-                        AddAnimalToTheGame(new Antelope(), game);
+                        AddAnimalToTheGame(new Animals.NonPredators.Antelope(), game);
                         break;
 
                     case ConsoleKey.L:
-                        AddAnimalToTheGame(new Lion(), game);
+                        AddAnimalToTheGame(new Animals.Predators.Lion(), game);
                         break;
 
                     default:

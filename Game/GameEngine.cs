@@ -1,4 +1,5 @@
 ﻿using Savanna.Animals;
+using Savanna.Animals.Predators;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,22 +8,18 @@ namespace Savanna.Game
 {
     public class GameEngine
     {
-        public int Width { get; set; } = 19;
-        public int Height { get; set; } = 19;
-        public char[,] Field { get; set; }
+        public static int Width { get; set; } = 19;
+        public static int Height { get; set; } = 19;
         public List<Animal> GameAnimals { get; set; } = new List<Animal>();
         public List<BabyAnimal> UnbornAnimals { get; set; } = new List<BabyAnimal>();
 
-        public GameEngine()
+        public void PrintField()
         {
-            Field = new char[Width, Height];
+            char[,] Field = new char[Width, Height];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                     Field[x, y] = ' ';
-        }
 
-        public void PrintField()
-        {
             foreach (Animal animal in GameAnimals)
             {
                 Field[animal.WidthCoordinate, animal.HeightCoordinate] = animal.AnimalSymbol;
@@ -50,11 +47,12 @@ namespace Savanna.Game
         {
             Random random = new Random();
             int randomheight, randomwidth;
-            do
-            {
-                randomheight = random.Next(Height);
-                randomwidth = random.Next(Width);
-            } while (Field[randomwidth, randomheight] != ' ');
+            //problem
+            // do
+            // {
+            randomheight = random.Next(Height);
+            randomwidth = random.Next(Width);
+            // } while (!GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
             animal.WidthCoordinate = randomwidth;
             animal.HeightCoordinate = randomheight;
             GameAnimals.Add(animal);
@@ -68,7 +66,13 @@ namespace Savanna.Game
             SortAnimals();
             for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
-                IteratingProcess(i);
+                if (GameAnimals[i] is Predator)
+                    IteratingProcess(i);
+            }
+            for (int i = GameAnimals.Count - 1; i >= 0; i--)
+            {
+                if (GameAnimals[i] is Animals.NonPredators.NonPredator)
+                    IteratingProcess(i);
             }
             for (int i = UnbornAnimals.Count - 1; i >= 0; i--)
             {
@@ -77,18 +81,13 @@ namespace Savanna.Game
             }
         }
 
-        protected void IteratingProcess(int i)
+        private void IteratingProcess(int i)
         {
-            Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = ' ';
             GameAnimals[i].Move(this);
             if (GameAnimals[i].Health < 0)
             {
-                GameAnimals[i].Die(this);
+                GameAnimals.RemoveAt(i);
                 return;
-            }
-            else
-            {
-                Field[GameAnimals[i].WidthCoordinate, GameAnimals[i].HeightCoordinate] = GameAnimals[i].AnimalSymbol;
             }
         }
 

@@ -32,16 +32,13 @@ namespace Savanna.Animals
         /// </summary>
         public bool Move(Game.GameEngine game)
         {
-            if (Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return false;
+            if (RoundCount > 3 || Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return false;
             if (RoundCount == 3)
             {
                 Type classname = Parent1.GetType();
                 Animal an = (Animal)Activator.CreateInstance(classname);
-                an.WidthCoordinate = 18;
-                an.HeightCoordinate = 18;
-                game.GameAnimals.Add(an);
-                Parent1.Stray(game);
-                Parent2.Stray(game);
+                game.AddAnimal(an);
+                RoundCount++;
                 return false;
             }
             else

@@ -1,5 +1,6 @@
 ﻿using Savanna.Game;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Savanna.Animals
@@ -16,17 +17,15 @@ namespace Savanna.Animals
         /// <summary>
         /// Deletes Animal from the game
         /// </summary>
-        /// <param name="game"></param>
-        public void Die(GameEngine game)
+        public void Die()
         {
-            game.GameAnimals.Remove(this);
-            game.Field[WidthCoordinate, HeightCoordinate] = ' ';
+            Health = 0;
         }
 
         /// <summary>
         /// Function that makes animal stray in random direction if field is empty
         /// </summary>
-        public void Stray(GameEngine game)
+        public void Stray(List<Animal> nearbyanimals)
         {
             Random random = new Random();
             int x, y;
@@ -34,33 +33,67 @@ namespace Savanna.Animals
             {
                 x = WidthCoordinate + random.Next(2 + 1) - 1;
                 y = HeightCoordinate + random.Next(2 + 1) - 1;
-            } while (x < 0 || y < 0 || x >= game.Width || y >= game.Height || game.Field[x, y] != ' ');
-            game.Field[WidthCoordinate, HeightCoordinate] = ' ';
+            } while (x < 0 || y < 0 || x >= GameEngine.Width || y >= GameEngine.Height || !IsEmpty(x, y, nearbyanimals));
             WidthCoordinate = x;
             HeightCoordinate = y;
-            game.Field[WidthCoordinate, HeightCoordinate] = AnimalSymbol;
         }
 
         /// <summary>
         /// Breed function makes BabyAnimal and if parent are in the same position for 3 rounds animal is born
         /// </summary>
-        public bool Breed(GameEngine game)
+        public BabyAnimal Breed(List<BabyAnimal> babyanimals, List<Animal> nearbyanimals)
         {
-            if (game.UnbornAnimals.Any(unbornanimal => unbornanimal.Parent1 == this || unbornanimal.Parent2 == this)) return true;
-            if (WidthCoordinate > 0 && game.Field[WidthCoordinate - 1, HeightCoordinate] == AnimalSymbol)
+            if (WidthCoordinate > 0 && (nearbyanimals.Any(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate && an.GetType().Equals(this.GetType()))))
             {
-                Animal result = game.GameAnimals.Find(
-                delegate (Animal an)
-                {
-                    return an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate;
-                }
-                );
+                Animal result = nearbyanimals.Find(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate);
                 BabyAnimal child = new BabyAnimal(this, result);
-                child.Move(game);
-                game.UnbornAnimals.Add(child);
-                return true;
+                return child;
             }
-            return false;
+            return null;
+        }
+
+        public void MoveTowardsAnimal(Animal target, List<Animal> nearbyanimals)
+        {
+            if (target.WidthCoordinate > WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
+            else if (target.WidthCoordinate < WidthCoordinate && IsEmpty(WidthCoordinate - 1, HeightCoordinate, nearbyanimals)) WidthCoordinate -= 1;
+            if (target.HeightCoordinate > HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
+            else if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
+        }
+
+        public void RunFromAnimal(Animal target, List<Animal> nearbyanimals)
+        {
+            if (WidthCoordinate > 0)
+            {
+                if (target.WidthCoordinate > WidthCoordinate && IsEmpty(WidthCoordinate - 1, HeightCoordinate, nearbyanimals)) WidthCoordinate -= 1;
+                else if (target.WidthCoordinate == WidthCoordinate && IsEmpty(WidthCoordinate - 1, HeightCoordinate, nearbyanimals)) WidthCoordinate -= 1;
+            }
+            else if (WidthCoordinate < Game.GameEngine.Width - 1)
+            {
+                if (target.WidthCoordinate < WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
+                else if (target.WidthCoordinate == WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
+            }
+
+            if (HeightCoordinate > 0)
+            {
+                if (target.HeightCoordinate > HeightCoordinate && HeightCoordinate > 0 && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
+                else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
+            }
+            else if (HeightCoordinate < Game.GameEngine.Height - 1)
+            {
+                if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
+                else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
+            }
+        }
+
+        public void IsInBounds()
+        {
+        }
+
+        private bool IsEmpty(int widthcoordinate, int heightcoordinate, List<Animal> nearbyanimals)
+        {
+            if (nearbyanimals.Any(an => an.WidthCoordinate == widthcoordinate && an.HeightCoordinate == heightcoordinate))
+                return false;
+            else return true;
         }
     }
 }
