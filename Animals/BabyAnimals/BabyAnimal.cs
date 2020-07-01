@@ -46,10 +46,5 @@ namespace Savanna.Animals
                 return null;
             }
         }
-
-        public void Die(Game.GameEngine game)
-        {
-            game.UnbornAnimals.Remove(this);
-        }
     }
 }

@@ -13,7 +13,7 @@ namespace Savanna.Animals
         public abstract int VisionRange { get; set; }
         public abstract char AnimalSymbol { get; }
 
-        public abstract void Move(List<Animal> nearbyanimals, List<BabyAnimal> unbornanimals);
+        public abstract void Move(List<Animal> nearbyanimals, List<BabyAnimal> babyanimals);
 
         /// <summary>
         /// Deletes Animal from the game
@@ -55,7 +55,7 @@ namespace Savanna.Animals
 
         public bool BreedingProcess(List<BabyAnimal> babyanimals, List<Animal> nearbyanimals)
         {
-            BabyAnimal child = babyanimals.Find(unbornanimal => unbornanimal.Parent1 == this || unbornanimal.Parent2 == this);
+            BabyAnimal child = babyanimals.Find(babyanimal => babyanimal.Parent1 == this || babyanimal.Parent2 == this);
             if (child != null)
             {
                 if (child.RoundCount > 3)

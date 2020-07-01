@@ -11,7 +11,7 @@ namespace Savanna.Game
         public static int Width { get; set; } = 19;
         public static int Height { get; set; } = 19;
         public List<Animal> GameAnimals { get; set; } = new List<Animal>();
-        public List<BabyAnimal> UnbornAnimals { get; set; } = new List<BabyAnimal>();
+        public List<BabyAnimal> BabyAnimals { get; set; } = new List<BabyAnimal>();
 
         public void PrintField()
         {
@@ -47,19 +47,18 @@ namespace Savanna.Game
         {
             Random random = new Random();
             int randomheight, randomwidth;
-            //problem
-            // do
-            // {
+            do
+            {
             randomheight = random.Next(Height);
             randomwidth = random.Next(Width);
-            // } while (!GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
+            } while (GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
             animal.WidthCoordinate = randomwidth;
             animal.HeightCoordinate = randomheight;
             GameAnimals.Add(animal);
         }
 
         /// <summary>
-        /// To make it more conviniet and meke it easier to follow the game. Lions make moves first its acheived by sorting animal list
+        /// To make it more conviniet and meke it easier to follow the game. Predators make moves first its acheived by sorting animal list
         /// </summary>
         public void Iterate()
         {
@@ -74,15 +73,15 @@ namespace Savanna.Game
                 if (GameAnimals[i] is Animals.NonPredators.NonPredator)
                     IteratingProcess(i);
             }
-            for (int i = UnbornAnimals.Count - 1; i >= 0; i--)
+            for (int i = BabyAnimals.Count - 1; i >= 0; i--)
             {
-                var result = UnbornAnimals[i].Move();
+                var result = BabyAnimals[i].Move();
                 if (result != null)
                     AddAnimal(result);
-                else if (UnbornAnimals[i].RoundCount > 3 && result == null)
+                else if (BabyAnimals[i].RoundCount > 3 && result == null)
                 {
-                    //problem
-                    UnbornAnimals.RemoveAt(i);
+                    //Problem got error here
+                    BabyAnimals.RemoveAt(i);
                 }
             }
         }
@@ -90,7 +89,7 @@ namespace Savanna.Game
         private void IteratingProcess(int i)
         {
             List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange && animal != GameAnimals[i]);
-            GameAnimals[i].Move(nearbyanimals, UnbornAnimals);
+            GameAnimals[i].Move(nearbyanimals, BabyAnimals);
             if (GameAnimals[i].Health < 0)
             {
                 GameAnimals.RemoveAt(i);

@@ -7,12 +7,12 @@ namespace Savanna.Animals.Predators
     {
         public override int VisionRange { get; set; } = 6;
 
-        public override void Move(List<Animal> nearbyanimals, List<BabyAnimal> unbornanimals)
+        public override void Move(List<Animal> nearbyanimals, List<BabyAnimal> babyanimals)
         {
             if (EatClosestNonPredator(nearbyanimals) == false)
                 if (ChaseClosestNonPredator(nearbyanimals) == false)
                 {
-                    if (BreedingProcess(unbornanimals, nearbyanimals) == false)
+                    if (BreedingProcess(babyanimals, nearbyanimals) == false)
                     {
                         Stray(nearbyanimals);
                     }
