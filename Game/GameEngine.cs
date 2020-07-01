@@ -76,14 +76,21 @@ namespace Savanna.Game
             }
             for (int i = UnbornAnimals.Count - 1; i >= 0; i--)
             {
-                if (UnbornAnimals[i].Move(this) == false)
-                    UnbornAnimals[i].Die(this);
+                var result = UnbornAnimals[i].Move();
+                if (result != null)
+                    AddAnimal(result);
+                else if (UnbornAnimals[i].RoundCount > 3 && result == null)
+                {
+                    //problem
+                    UnbornAnimals.RemoveAt(i);
+                }
             }
         }
 
         private void IteratingProcess(int i)
         {
-            GameAnimals[i].Move(this);
+            List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange && animal != GameAnimals[i]);
+            GameAnimals[i].Move(nearbyanimals, UnbornAnimals);
             if (GameAnimals[i].Health < 0)
             {
                 GameAnimals.RemoveAt(i);

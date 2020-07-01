@@ -30,21 +30,20 @@ namespace Savanna.Animals
         /// Move function for BabyAnimal makes new animal if 3 rounds passed
         /// also checks if all criterias for baby to be born are completed such as parents didnt move etc
         /// </summary>
-        public bool Move(Game.GameEngine game)
+        public Animal Move()
         {
-            if (RoundCount > 3 || Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return false;
+            if (RoundCount > 3 || Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return null;
             if (RoundCount == 3)
             {
                 Type classname = Parent1.GetType();
                 Animal an = (Animal)Activator.CreateInstance(classname);
-                game.AddAnimal(an);
                 RoundCount++;
-                return false;
+                return an;
             }
             else
             {
                 RoundCount++;
-                return true;
+                return null;
             }
         }
 

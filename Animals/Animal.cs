@@ -10,9 +10,10 @@ namespace Savanna.Animals
         public int WidthCoordinate { get; set; }
         public int HeightCoordinate { get; set; }
         public abstract double Health { get; set; }
+        public abstract int VisionRange { get; set; }
         public abstract char AnimalSymbol { get; }
 
-        public abstract void Move(GameEngine game);
+        public abstract void Move(List<Animal> nearbyanimals, List<BabyAnimal> unbornanimals);
 
         /// <summary>
         /// Deletes Animal from the game
@@ -41,7 +42,7 @@ namespace Savanna.Animals
         /// <summary>
         /// Breed function makes BabyAnimal and if parent are in the same position for 3 rounds animal is born
         /// </summary>
-        public BabyAnimal Breed(List<BabyAnimal> babyanimals, List<Animal> nearbyanimals)
+        public BabyAnimal Breed(List<Animal> nearbyanimals)
         {
             if (WidthCoordinate > 0 && (nearbyanimals.Any(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate && an.GetType().Equals(this.GetType()))))
             {
@@ -50,6 +51,29 @@ namespace Savanna.Animals
                 return child;
             }
             return null;
+        }
+
+        public bool BreedingProcess(List<BabyAnimal> babyanimals, List<Animal> nearbyanimals)
+        {
+            BabyAnimal child = babyanimals.Find(unbornanimal => unbornanimal.Parent1 == this || unbornanimal.Parent2 == this);
+            if (child != null)
+            {
+                if (child.RoundCount > 3)
+                {
+                    this.Stray(nearbyanimals);
+                }
+                return true;
+            }
+            else
+            {
+                var result = Breed(nearbyanimals);
+                if (result != null)
+                {
+                    babyanimals.Add(result);
+                    return true;
+                }
+                else return false;
+            }
         }
 
         public void MoveTowardsAnimal(Animal target, List<Animal> nearbyanimals)
@@ -83,10 +107,6 @@ namespace Savanna.Animals
                 if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
                 else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
             }
-        }
-
-        public void IsInBounds()
-        {
         }
 
         private bool IsEmpty(int widthcoordinate, int heightcoordinate, List<Animal> nearbyanimals)

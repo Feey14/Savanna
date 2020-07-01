@@ -5,29 +5,15 @@ namespace Savanna.Animals.NonPredators
 {
     public abstract class NonPredator : Animal
     {
-        public int VisionRange { get; set; } = 6;
+        public override int VisionRange { get; set; } = 6;
 
-        public override void Move(Game.GameEngine game)
+        public override void Move(List<Animal> nearbyanimals, List<BabyAnimal> unbornanimals)
         {
-            List<Animal> nearbyanimals = game.GameAnimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + VisionRange && animal.WidthCoordinate >= WidthCoordinate - VisionRange && animal.HeightCoordinate <= HeightCoordinate + VisionRange && animal.HeightCoordinate >= HeightCoordinate - VisionRange && animal != this);
             if (RetreatFromPredator(nearbyanimals) == false)
             {
-                BabyAnimal child = game.UnbornAnimals.Find(unbornanimal => unbornanimal.Parent1 == this || unbornanimal.Parent2 == this);
-                if (child != null)
+                if (BreedingProcess(unbornanimals, nearbyanimals) == false)
                 {
-                    if (child.RoundCount == 3)
-                    {
-                        child.Move(game);
-                        this.Stray(nearbyanimals);
-                    }
-                }
-                else
-                {
-                    if (Breed(game.UnbornAnimals, nearbyanimals) != null)
-                    {
-                        game.UnbornAnimals.Add(Breed(game.UnbornAnimals, nearbyanimals));
-                    }
-                    else Stray(nearbyanimals);
+                    Stray(nearbyanimals);
                 }
             }
             Health -= 0.5;
@@ -35,7 +21,6 @@ namespace Savanna.Animals.NonPredators
 
         private bool RetreatFromPredator(List<Animal> nearbyanimals)
         {
-            int visionrange = 6;
             int lookingforpredatorvisionrange = 1;
             List<Animal> RunFrom = new List<Animal>();
             var predators = nearbyanimals.FindAll(animal => animal is Predators.Predator);
@@ -47,7 +32,7 @@ namespace Savanna.Animals.NonPredators
                     RunFrom = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + lookingforpredatorvisionrange && animal.WidthCoordinate >= WidthCoordinate - lookingforpredatorvisionrange && animal.HeightCoordinate <= HeightCoordinate + lookingforpredatorvisionrange && animal.HeightCoordinate >= HeightCoordinate - lookingforpredatorvisionrange && animal != this);
                     lookingforpredatorvisionrange++;
                 }
-                while (lookingforpredatorvisionrange <= visionrange && RunFrom.Count > 0);
+                while (lookingforpredatorvisionrange <= VisionRange && RunFrom.Count > 0);
                 if (RunFrom.Count > 0)
                 {
                     Random randon = new Random();
