@@ -5,13 +5,17 @@ namespace Savanna.Animals.NonPredators
 {
     public abstract class NonPredator : Animal
     {
-        public override int VisionRange { get; set; } = 6;
+        public override int VisionRange => 6;
 
+        /// <summary>
+        /// Defines logic for NonPredator movement priorites are Retreat from predator > breed > stray
+        /// also removes 0.5 health each move
+        /// </summary>
         public override void Move(List<Animal> nearbyanimals, List<BabyAnimal> babyanimals)
         {
             if (RetreatFromPredator(nearbyanimals) == false)
             {
-                if (BreedingProcess(babyanimals, nearbyanimals) == false)
+                if (Breed(nearbyanimals, babyanimals) == false)
                 {
                     Stray(nearbyanimals);
                 }
@@ -19,6 +23,11 @@ namespace Savanna.Animals.NonPredators
             Health -= 0.5;
         }
 
+        /// <summary>
+        /// Looks for closest predator and runs from it
+        /// Scans area around animal
+        /// if there are multiple predator choseses random one and runs from it
+        /// </summary>
         private bool RetreatFromPredator(List<Animal> nearbyanimals)
         {
             int lookingforpredatorvisionrange = 1;
@@ -28,7 +37,7 @@ namespace Savanna.Animals.NonPredators
             {
                 do
                 {
-                    //Looking for closeset pery
+                    //Looking for closeset animal
                     RunFrom = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + lookingforpredatorvisionrange && animal.WidthCoordinate >= WidthCoordinate - lookingforpredatorvisionrange && animal.HeightCoordinate <= HeightCoordinate + lookingforpredatorvisionrange && animal.HeightCoordinate >= HeightCoordinate - lookingforpredatorvisionrange && animal != this);
                     lookingforpredatorvisionrange++;
                 }

@@ -10,13 +10,15 @@ namespace Savanna.Animals
         public int WidthCoordinate { get; set; }
         public int HeightCoordinate { get; set; }
         public abstract double Health { get; set; }
-        public abstract int VisionRange { get; set; }
+        public abstract int VisionRange { get; }
         public abstract char AnimalSymbol { get; }
-
+        /// <summary>
+        /// Defines how animals move, each animal has different move logic based on its type
+        /// </summary>
         public abstract void Move(List<Animal> nearbyanimals, List<BabyAnimal> babyanimals);
 
         /// <summary>
-        /// Deletes Animal from the game
+        /// Sets Health to 0 when animal dies
         /// </summary>
         public void Die()
         {
@@ -24,7 +26,7 @@ namespace Savanna.Animals
         }
 
         /// <summary>
-        /// Function that makes animal stray in random direction if field is empty
+        /// Function that makes animal stray in random empty direction
         /// </summary>
         public void Stray(List<Animal> nearbyanimals)
         {
@@ -41,41 +43,34 @@ namespace Savanna.Animals
 
         /// <summary>
         /// Breed function makes BabyAnimal and if parent are in the same position for 3 rounds animal is born
+        /// if parents have child they keep breeding untill child is born
+        /// and when child should be born parents make move so they dont just keep breeding
         /// </summary>
-        public BabyAnimal Breed(List<Animal> nearbyanimals)
+        public bool Breed(List<Animal> nearbyanimals, List<BabyAnimal> babyanimals)
         {
-            if (WidthCoordinate > 0 && (nearbyanimals.Any(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate && an.GetType().Equals(this.GetType()))))
+            BabyAnimal existingchild = babyanimals.Find(babyanimal => babyanimal.Parent1 == this || babyanimal.Parent2 == this);
+            if (existingchild != null)
             {
-                Animal result = nearbyanimals.Find(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate);
-                BabyAnimal child = new BabyAnimal(this, result);
-                return child;
-            }
-            return null;
-        }
-
-        public bool BreedingProcess(List<BabyAnimal> babyanimals, List<Animal> nearbyanimals)
-        {
-            BabyAnimal child = babyanimals.Find(babyanimal => babyanimal.Parent1 == this || babyanimal.Parent2 == this);
-            if (child != null)
-            {
-                if (child.RoundCount > 3)
+                if (existingchild.RoundCount > 3)
                 {
                     this.Stray(nearbyanimals);
                 }
                 return true;
             }
-            else
+            else 
+            if (WidthCoordinate > 0 && (nearbyanimals.Any(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate && an.GetType().Equals(this.GetType()))))
             {
-                var result = Breed(nearbyanimals);
-                if (result != null)
-                {
-                    babyanimals.Add(result);
-                    return true;
-                }
-                else return false;
+                Animal result = nearbyanimals.Find(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate);
+                BabyAnimal child = new BabyAnimal(this, result);
+                babyanimals.Add(child);
+                return true;
             }
+            return false;
         }
 
+        /// <summary>
+        /// Defines how animal is moving towards other animal also dosent allow it to step on other animal
+        /// </summary>
         public void MoveTowardsAnimal(Animal target, List<Animal> nearbyanimals)
         {
             if (target.WidthCoordinate > WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
@@ -83,7 +78,9 @@ namespace Savanna.Animals
             if (target.HeightCoordinate > HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
             else if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
         }
-
+        /// <summary>
+        /// Defines how animal is running from other animal, dosent allow to step on other animal
+        /// </summary>
         public void RunFromAnimal(Animal target, List<Animal> nearbyanimals)
         {
             if (WidthCoordinate > 0)
@@ -108,11 +105,12 @@ namespace Savanna.Animals
                 else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
             }
         }
-
+        /// <summary>
+        /// Checks if there is animal on provided coordinates 
+        /// </summary>
         private bool IsEmpty(int widthcoordinate, int heightcoordinate, List<Animal> nearbyanimals)
         {
-            if (nearbyanimals.Any(an => an.WidthCoordinate == widthcoordinate && an.HeightCoordinate == heightcoordinate))
-                return false;
+            if (nearbyanimals.Any(an => an.WidthCoordinate == widthcoordinate && an.HeightCoordinate == heightcoordinate)) return false;
             else return true;
         }
     }

@@ -27,12 +27,12 @@ namespace Savanna.Animals
         }
 
         /// <summary>
-        /// Move function for BabyAnimal makes new animal if 3 rounds passed
-        /// also checks if all criterias for baby to be born are completed such as parents didnt move etc
+        /// Move function for BabyAnimal makes new animal if 3 rounds has passed
+        /// also checks if all criterias for baby to be born are completed such as parents didnt move
         /// </summary>
         public Animal Move()
         {
-            if (RoundCount > 3 || Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates) return null;
+            if (RoundCount > 3 || Parent1.WidthCoordinate != Parent1WidthCoordinates || Parent2.WidthCoordinate != Parent2WidthCoordinates || Parent1.HeightCoordinate != Parent1Heightcoordinates || Parent2.HeightCoordinate != Parent2Heightcoordinates || Parent1 == null || Parent2 == null) return null;
             if (RoundCount == 3)
             {
                 Type classname = Parent1.GetType();

@@ -5,6 +5,10 @@ namespace Savanna
 {
     internal class GameLoop
     {
+        /// <summary>
+        /// Creates game timer and loops each second meanwhile capturing user input 
+        /// Each loop iterates game and prints game in the console
+        /// </summary>
         public void StartTimer(Game.GameEngine game)
         {
             Timer timer = new Timer(1000);

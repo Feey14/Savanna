@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Savanna.Game
+﻿namespace Savanna.Game
 {
-    class GameEnvironment
+    /// <summary>
+    /// Defines Game Constant attributes like Width and Height
+    /// </summary>
+    internal class GameEnvironment
     {
-        public static int Width = 19;
-        public static int Height = 19;
+        public const int Width = 19;
+        public const int Height = 19;
     }
 }

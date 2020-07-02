@@ -4,6 +4,6 @@
     {
         public override char AnimalSymbol { get { return 'L'; } }
         public override double Health { get; set; } = 20;
-        public override int VisionRange { get; set; } = 6;
+        public override int VisionRange => 6;
     }
 }
