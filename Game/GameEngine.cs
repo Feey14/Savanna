@@ -8,16 +8,15 @@ namespace Savanna.Game
 {
     public class GameEngine
     {
-        public static int Width { get; set; } = 19;
-        public static int Height { get; set; } = 19;
+
         public List<Animal> GameAnimals { get; set; } = new List<Animal>();
         public List<BabyAnimal> BabyAnimals { get; set; } = new List<BabyAnimal>();
 
         public void PrintField()
         {
-            char[,] Field = new char[Width, Height];
-            for (int y = 0; y < Height; y++)
-                for (int x = 0; x < Width; x++)
+            char[,] Field = new char[GameEnvironment.Width, GameEnvironment.Height];
+            for (int y = 0; y < GameEnvironment.Height; y++)
+                for (int x = 0; x < GameEnvironment.Width; x++)
                     Field[x, y] = ' ';
 
             foreach (Animal animal in GameAnimals)
@@ -26,17 +25,17 @@ namespace Savanna.Game
             }
 
             StringBuilder line = new StringBuilder();
-            for (int y = 0; y < Height; y++)
+            for (int y = 0; y < GameEnvironment.Height; y++)
             {
                 line.Clear();
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < GameEnvironment.Width; x++)
                 {
                     line.Append(Field[x, y]);
                 }
                 Console.WriteLine(line.Append("|"));
             }
             line.Clear();
-            for (int x = 0; x <= Width; x++)
+            for (int x = 0; x <= GameEnvironment.Width; x++)
             {
                 line.Append("-");
             }
@@ -49,8 +48,8 @@ namespace Savanna.Game
             int randomheight, randomwidth;
             do
             {
-            randomheight = random.Next(Height);
-            randomwidth = random.Next(Width);
+            randomheight = random.Next(GameEnvironment.Height);
+            randomwidth = random.Next(GameEnvironment.Width);
             } while (GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
             animal.WidthCoordinate = randomwidth;
             animal.HeightCoordinate = randomheight;

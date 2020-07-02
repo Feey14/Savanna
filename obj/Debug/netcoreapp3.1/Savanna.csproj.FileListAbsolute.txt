@@ -11,3 +11,5 @@ C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.cspro
 C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.dll
 C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.pdb
 C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.genruntimeconfig.cache
+C:\Users\Edgar Bondar\source\repos\Savanna\bin\Debug\netcoreapp3.1\SavannaClassLibrary.dll
+C:\Users\Edgar Bondar\source\repos\Savanna\obj\Debug\netcoreapp3.1\Savanna.csproj.CopyComplete

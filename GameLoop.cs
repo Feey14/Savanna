@@ -3,7 +3,7 @@ using System.Timers;
 
 namespace Savanna
 {
-    internal class GameTimer
+    internal class GameLoop
     {
         public void StartTimer(Game.GameEngine game)
         {
@@ -13,7 +13,7 @@ namespace Savanna
             timer.Start();
             Console.Clear();
             game.PrintField();
-            UserInput input = new UserInput();
+            SavannaClassLibrary.UserInput input = new SavannaClassLibrary.UserInput();
             input.AddAnimal(game);
             Console.ReadLine();
             timer.Stop();

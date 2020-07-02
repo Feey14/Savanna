@@ -34,7 +34,7 @@ namespace Savanna.Animals
             {
                 x = WidthCoordinate + random.Next(2 + 1) - 1;
                 y = HeightCoordinate + random.Next(2 + 1) - 1;
-            } while (x < 0 || y < 0 || x >= GameEngine.Width || y >= GameEngine.Height || !IsEmpty(x, y, nearbyanimals));
+            } while (x < 0 || y < 0 || x >= GameEnvironment.Width || y >= GameEnvironment.Height || !IsEmpty(x, y, nearbyanimals));
             WidthCoordinate = x;
             HeightCoordinate = y;
         }
@@ -91,7 +91,7 @@ namespace Savanna.Animals
                 if (target.WidthCoordinate > WidthCoordinate && IsEmpty(WidthCoordinate - 1, HeightCoordinate, nearbyanimals)) WidthCoordinate -= 1;
                 else if (target.WidthCoordinate == WidthCoordinate && IsEmpty(WidthCoordinate - 1, HeightCoordinate, nearbyanimals)) WidthCoordinate -= 1;
             }
-            else if (WidthCoordinate < Game.GameEngine.Width - 1)
+            else if (WidthCoordinate < GameEnvironment.Width - 1)
             {
                 if (target.WidthCoordinate < WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
                 else if (target.WidthCoordinate == WidthCoordinate && IsEmpty(WidthCoordinate + 1, HeightCoordinate, nearbyanimals)) WidthCoordinate += 1;
@@ -102,7 +102,7 @@ namespace Savanna.Animals
                 if (target.HeightCoordinate > HeightCoordinate && HeightCoordinate > 0 && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
                 else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
             }
-            else if (HeightCoordinate < Game.GameEngine.Height - 1)
+            else if (HeightCoordinate < GameEnvironment.Height - 1)
             {
                 if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
                 else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;

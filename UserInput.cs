@@ -4,7 +4,7 @@ using System;
 
 namespace Savanna
 {
-    internal class UserInput
+    public class UserInput
     {
         private static void AddAnimalToTheGame(Animal animal, GameEngine game)
         {
