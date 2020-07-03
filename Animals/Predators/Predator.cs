@@ -6,6 +6,7 @@ namespace Savanna.Animals.Predators
     public abstract class Predator : Animal
     {
         public override int VisionRange => 6;
+
         /// <summary>
         /// Defines logic for Predator movement priorites are eat animal > chase prey > breed > stray
         /// also removes 0.5 health each move
@@ -22,6 +23,7 @@ namespace Savanna.Animals.Predators
                 }
             Health -= 0.5;
         }
+
         /// <summary>
         /// If its possible eats nearby animal that is located in 1 coordinate interval
         /// If multiple animals can be eatern random animal is eaten
@@ -46,6 +48,7 @@ namespace Savanna.Animals.Predators
             }
             return false;
         }
+
         /// <summary>
         /// Looks for closest non predator prey and chases it by moving towards it
         /// Scans area around predator and chases nearest prey
@@ -54,23 +57,15 @@ namespace Savanna.Animals.Predators
         private bool ChaseClosestNonPredator(List<Animal> nearbyanimals)
         {
             var lookingforpreyvisionrange = 2;
-            List<Animal> CanChase;
-
             var targets = nearbyanimals.FindAll(animal => animal is NonPredators.NonPredator);
             if (targets.Count > 0)
             {
-                //Looking for closeset prey
-                do
-                {
-                    CanChase = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + lookingforpreyvisionrange && animal.WidthCoordinate >= WidthCoordinate - lookingforpreyvisionrange && animal.HeightCoordinate <= HeightCoordinate + lookingforpreyvisionrange && animal.HeightCoordinate >= HeightCoordinate - lookingforpreyvisionrange && animal != this);
-                    lookingforpreyvisionrange++;
-                }
-                while (lookingforpreyvisionrange <= VisionRange && CanChase.Count > 0);
+                List<Animal> CanChase = LookingForClosestAnimal(lookingforpreyvisionrange, targets);
                 if (CanChase.Count > 0)
                 {
                     Random randon = new Random();
-                    Animal target = CanChase[randon.Next(CanChase.Count)];
-                    MoveTowardsAnimal(target, nearbyanimals);
+                    Animal prey = CanChase[randon.Next(CanChase.Count)];
+                    MoveTowardsAnimal(prey, nearbyanimals);
                     return true;
                 }
             }

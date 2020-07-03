@@ -6,7 +6,7 @@ namespace Savanna
     internal class GameLoop
     {
         /// <summary>
-        /// Creates game timer and loops each second meanwhile capturing user input 
+        /// Creates game timer and loops each second meanwhile capturing user input
         /// Each loop iterates game and prints game in the console
         /// </summary>
         public void StartTimer(Game.GameEngine game)
@@ -17,7 +17,7 @@ namespace Savanna
             timer.Start();
             Console.Clear();
             game.PrintField();
-            SavannaClassLibrary.UserInput input = new SavannaClassLibrary.UserInput();
+            UserInput input = new UserInput();
             input.AddAnimal(game);
             Console.ReadLine();
             timer.Stop();

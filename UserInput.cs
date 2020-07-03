@@ -1,4 +1,5 @@
-﻿using Savanna.Game;
+﻿
+using Savanna.Game;
 using System;
 
 namespace Savanna
@@ -11,13 +12,13 @@ namespace Savanna
         public void AddAnimal(GameEngine game)
         {
             ConsoleKey input;
-            do
-            {
+           do
+           {
                 input = Console.ReadKey().Key;
                 switch (input)
                 {
                     case ConsoleKey.A:
-                        game.AddAnimal(new Animals.Predators.Lion());
+                        game.AddAnimal(new Animals.NonPredators.Antelope());
                         break;
 
                     case ConsoleKey.L:

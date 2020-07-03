@@ -12,6 +12,7 @@ namespace Savanna.Animals
         public abstract double Health { get; set; }
         public abstract int VisionRange { get; }
         public abstract char AnimalSymbol { get; }
+
         /// <summary>
         /// Defines how animals move, each animal has different move logic based on its type
         /// </summary>
@@ -57,7 +58,7 @@ namespace Savanna.Animals
                 }
                 return true;
             }
-            else 
+            else
             if (WidthCoordinate > 0 && (nearbyanimals.Any(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate && an.GetType().Equals(this.GetType()))))
             {
                 Animal result = nearbyanimals.Find(an => an.WidthCoordinate == WidthCoordinate - 1 && an.HeightCoordinate == HeightCoordinate);
@@ -78,6 +79,7 @@ namespace Savanna.Animals
             if (target.HeightCoordinate > HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
             else if (target.HeightCoordinate < HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate - 1, nearbyanimals)) HeightCoordinate -= 1;
         }
+
         /// <summary>
         /// Defines how animal is running from other animal, dosent allow to step on other animal
         /// </summary>
@@ -105,13 +107,27 @@ namespace Savanna.Animals
                 else if (target.HeightCoordinate == HeightCoordinate && IsEmpty(WidthCoordinate, HeightCoordinate + 1, nearbyanimals)) HeightCoordinate += 1;
             }
         }
+
         /// <summary>
-        /// Checks if there is animal on provided coordinates 
+        /// Checks if there is animal on provided coordinates
         /// </summary>
         private bool IsEmpty(int widthcoordinate, int heightcoordinate, List<Animal> nearbyanimals)
         {
             if (nearbyanimals.Any(an => an.WidthCoordinate == widthcoordinate && an.HeightCoordinate == heightcoordinate)) return false;
             else return true;
+        }
+
+        public List<Animal> LookingForClosestAnimal(int visionrange, List<Animal> nearbyanimals)
+        {
+            List<Animal> ClosestAnimals;
+            do
+            {
+                //Looking for closeset animal
+                ClosestAnimals = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + visionrange && animal.WidthCoordinate >= WidthCoordinate - visionrange && animal.HeightCoordinate <= HeightCoordinate + visionrange && animal.HeightCoordinate >= HeightCoordinate - visionrange && animal != this);
+                visionrange++;
+            }
+            while (visionrange <= VisionRange && ClosestAnimals.Count > 0);
+            return ClosestAnimals;
         }
     }
 }

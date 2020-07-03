@@ -31,21 +31,14 @@ namespace Savanna.Animals.NonPredators
         private bool RetreatFromPredator(List<Animal> nearbyanimals)
         {
             int lookingforpredatorvisionrange = 1;
-            List<Animal> RunFrom = new List<Animal>();
             var predators = nearbyanimals.FindAll(animal => animal is Predators.Predator);
             if (predators.Count > 0)
             {
-                do
-                {
-                    //Looking for closeset animal
-                    RunFrom = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + lookingforpredatorvisionrange && animal.WidthCoordinate >= WidthCoordinate - lookingforpredatorvisionrange && animal.HeightCoordinate <= HeightCoordinate + lookingforpredatorvisionrange && animal.HeightCoordinate >= HeightCoordinate - lookingforpredatorvisionrange && animal != this);
-                    lookingforpredatorvisionrange++;
-                }
-                while (lookingforpredatorvisionrange <= VisionRange && RunFrom.Count > 0);
-                if (RunFrom.Count > 0)
+                List<Animal> runfrom = LookingForClosestAnimal(lookingforpredatorvisionrange, predators);
+                if (runfrom.Count > 0)
                 {
                     Random randon = new Random();
-                    Animal predator = RunFrom[randon.Next(RunFrom.Count)];
+                    Animal predator = runfrom[randon.Next(runfrom.Count)];
                     RunFromAnimal(predator, nearbyanimals);
                     return true;
                 }
