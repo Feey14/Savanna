@@ -3,7 +3,7 @@ using System.Timers;
 
 namespace Savanna
 {
-    internal class GameLoop
+    public class GameLoop
     {
         /// <summary>
         /// Creates game timer and loops each second meanwhile capturing user input

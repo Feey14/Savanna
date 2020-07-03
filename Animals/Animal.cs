@@ -117,6 +117,9 @@ namespace Savanna.Animals
             else return true;
         }
 
+        /// <summary>
+        /// Returns closest animals to this animal
+        /// </summary>
         public List<Animal> LookingForClosestAnimal(int visionrange, List<Animal> nearbyanimals)
         {
             List<Animal> ClosestAnimals;
@@ -126,7 +129,7 @@ namespace Savanna.Animals
                 ClosestAnimals = nearbyanimals.FindAll(animal => animal.WidthCoordinate <= WidthCoordinate + visionrange && animal.WidthCoordinate >= WidthCoordinate - visionrange && animal.HeightCoordinate <= HeightCoordinate + visionrange && animal.HeightCoordinate >= HeightCoordinate - visionrange && animal != this);
                 visionrange++;
             }
-            while (visionrange <= VisionRange && ClosestAnimals.Count > 0);
+            while (visionrange <= VisionRange && ClosestAnimals.Count <= 0);
             return ClosestAnimals;
         }
     }

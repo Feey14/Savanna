@@ -67,7 +67,6 @@ namespace Savanna.Game
         /// </summary>
         public void Iterate()
         {
-            SortAnimals();
             for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
                 if (GameAnimals[i] is Predator)
@@ -102,14 +101,6 @@ namespace Savanna.Game
                 GameAnimals.RemoveAt(i);
                 return;
             }
-        }
-
-        /// <summary>
-        /// Sorting Animal List by type name
-        /// </summary>
-        protected void SortAnimals()
-        {
-            GameAnimals.Sort((a, b) => a.GetType().FullName.CompareTo(b.GetType().FullName));
         }
     }
 }
