@@ -1,4 +1,6 @@
-﻿namespace Savanna.Animals.Predators
+﻿using AnimalTypeClassLibrary;
+
+namespace Savanna.Animals.Predators
 {
     public class Lion : Predator
     {

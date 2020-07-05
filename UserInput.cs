@@ -1,4 +1,5 @@
-﻿using Savanna.Game;
+﻿using GameObjectsClassLibrary;
+using Savanna.Game;
 using System;
 
 namespace Savanna
@@ -7,6 +8,7 @@ namespace Savanna
     {
         /// <summary>
         /// Captures user input key and adds animal that animal based on key input
+        /// Checks if animal exists in AnimalDictionary
         /// </summary>
         public void AddAnimal(GameEngine game)
         {
@@ -17,7 +19,7 @@ namespace Savanna
                 input = Console.ReadKey();
                 if (animaldictionary.AnimalTypes.TryGetValue(input.KeyChar, out Type type))
                 {
-                    Animals.Animal animal = (Animals.Animal)Activator.CreateInstance(type);
+                    Animal animal = (Animal)Activator.CreateInstance(type);
                     game.AddAnimal(animal);
                 }
             } while (input.Key != ConsoleKey.Escape);

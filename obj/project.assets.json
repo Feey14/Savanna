@@ -1,11 +1,66 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "AnimalsClassLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "AnimalTypeClassLibrary": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AnimalsClassLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AnimalsClassLibrary.dll": {}
+        }
+      },
+      "AnimalTypeClassLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "GameObjectsClassLibrary": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AnimalTypeClassLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AnimalTypeClassLibrary.dll": {}
+        }
+      },
+      "GameObjectsClassLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/GameObjectsClassLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GameObjectsClassLibrary.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "AnimalsClassLibrary/1.0.0": {
+      "type": "project",
+      "path": "../AnimalsClassLibrary/AnimalsClassLibrary.csproj",
+      "msbuildProject": "../AnimalsClassLibrary/AnimalsClassLibrary.csproj"
+    },
+    "AnimalTypeClassLibrary/1.0.0": {
+      "type": "project",
+      "path": "../AnimalTypeClassLibrary/AnimalTypeClassLibrary.csproj",
+      "msbuildProject": "../AnimalTypeClassLibrary/AnimalTypeClassLibrary.csproj"
+    },
+    "GameObjectsClassLibrary/1.0.0": {
+      "type": "project",
+      "path": "../GameObjectsClassLibrary/GameObjectsClassLibrary.csproj",
+      "msbuildProject": "../GameObjectsClassLibrary/GameObjectsClassLibrary.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "AnimalsClassLibrary >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Edgar Bondar\\.nuget\\packages\\": {},
@@ -36,7 +91,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Edgar Bondar\\source\\repos\\AnimalsClassLibrary\\AnimalsClassLibrary.csproj": {
+              "projectPath": "C:\\Users\\Edgar Bondar\\source\\repos\\AnimalsClassLibrary\\AnimalsClassLibrary.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

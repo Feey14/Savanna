@@ -1,5 +1,5 @@
-﻿using Savanna.Animals;
-using Savanna.Animals.Predators;
+﻿using AnimalTypeClassLibrary;
+using GameObjectsClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -74,7 +74,7 @@ namespace Savanna.Game
             }
             for (int i = GameAnimals.Count - 1; i >= 0; i--)
             {
-                if (GameAnimals[i] is Animals.NonPredators.NonPredator)
+                if (GameAnimals[i] is NonPredator)
                     AnimalIterating(i);
             }
             for (int i = BabyAnimals.Count - 1; i >= 0; i--)
@@ -94,12 +94,16 @@ namespace Savanna.Game
         /// </summary>
         private void AnimalIterating(int i)
         {
-            List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange && animal != GameAnimals[i]);
-            GameAnimals[i].Move(nearbyanimals, BabyAnimals);
+            //Finds Nearby animals withing Animal visionrange and that is not this animal
+            List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange
+                                                            && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange
+                                                            && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange
+                                                            && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange
+                                                            && animal != GameAnimals[i]);
+            GameAnimals[i].Move(nearbyanimals, BabyAnimals, GameEnvironment.Width, GameEnvironment.Height);
             if (GameAnimals[i].Health < 0)
             {
                 GameAnimals.RemoveAt(i);
-                return;
             }
         }
     }

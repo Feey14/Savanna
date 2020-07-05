@@ -7,14 +7,53 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {
       "Savanna/1.0.0": {
+        "dependencies": {
+          "AnimalsClassLibrary": "1.0.0"
+        },
         "runtime": {
           "Savanna.dll": {}
+        }
+      },
+      "AnimalsClassLibrary/1.0.0": {
+        "dependencies": {
+          "AnimalTypeClassLibrary": "1.0.0"
+        },
+        "runtime": {
+          "AnimalsClassLibrary.dll": {}
+        }
+      },
+      "AnimalTypeClassLibrary/1.0.0": {
+        "dependencies": {
+          "GameObjectsClassLibrary": "1.0.0"
+        },
+        "runtime": {
+          "AnimalTypeClassLibrary.dll": {}
+        }
+      },
+      "GameObjectsClassLibrary/1.0.0": {
+        "runtime": {
+          "GameObjectsClassLibrary.dll": {}
         }
       }
     }
   },
   "libraries": {
     "Savanna/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AnimalsClassLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AnimalTypeClassLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GameObjectsClassLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

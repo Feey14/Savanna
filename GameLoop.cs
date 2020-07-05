@@ -13,7 +13,7 @@ namespace Savanna
         {
             Timer timer = new Timer(1000);
 
-            timer.Elapsed += (sender, e) => TimerTick(game);
+            timer.Elapsed += (sender, e) => LoopGame(game);
             timer.Start();
             Console.Clear();
             game.PrintField();
@@ -24,7 +24,10 @@ namespace Savanna
             timer.Dispose();
         }
 
-        private void TimerTick(Game.GameEngine game)
+        /// <summary>
+        /// Loops the game 1 time
+        /// </summary>
+        private void LoopGame(Game.GameEngine game)
         {
             game.Iterate();
             Console.Clear();

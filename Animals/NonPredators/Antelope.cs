@@ -1,4 +1,6 @@
-﻿namespace Savanna.Animals.NonPredators
+﻿using AnimalTypeClassLibrary;
+
+namespace Savanna.Animals.NonPredators
 {
     public class Antelope : NonPredator
     {
