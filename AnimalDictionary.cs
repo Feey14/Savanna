@@ -1,4 +1,5 @@
-﻿using GameObjectsClassLibrary;
+﻿using AnimalsClassLibrary;
+using AnimalTypeClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,7 @@ namespace Savanna
         /// </summary>
         private void CreateDictionary()
         {
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-
-            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.IsSubclassOf(typeof(Animal)) && !p.IsAbstract).Select(t => (Animal)Activator.CreateInstance(t));
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(t => t.IsSubclassOf(typeof(Animal)) && !t.IsAbstract).Select(t => (Animal)Activator.CreateInstance(t));
 
             foreach (var type in types)
             {

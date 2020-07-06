@@ -18,24 +18,11 @@
       "AnimalTypeClassLibrary/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "GameObjectsClassLibrary": "1.0.0"
-        },
         "compile": {
           "bin/placeholder/AnimalTypeClassLibrary.dll": {}
         },
         "runtime": {
           "bin/placeholder/AnimalTypeClassLibrary.dll": {}
-        }
-      },
-      "GameObjectsClassLibrary/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "compile": {
-          "bin/placeholder/GameObjectsClassLibrary.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/GameObjectsClassLibrary.dll": {}
         }
       }
     }
@@ -50,11 +37,6 @@
       "type": "project",
       "path": "../AnimalTypeClassLibrary/AnimalTypeClassLibrary.csproj",
       "msbuildProject": "../AnimalTypeClassLibrary/AnimalTypeClassLibrary.csproj"
-    },
-    "GameObjectsClassLibrary/1.0.0": {
-      "type": "project",
-      "path": "../GameObjectsClassLibrary/GameObjectsClassLibrary.csproj",
-      "msbuildProject": "../GameObjectsClassLibrary/GameObjectsClassLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {

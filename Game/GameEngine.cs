@@ -1,8 +1,7 @@
-﻿using AnimalTypeClassLibrary;
-using GameObjectsClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AnimalTypeClassLibrary;
 
 namespace Savanna.Game
 {
@@ -47,18 +46,21 @@ namespace Savanna.Game
         /// <summary>
         /// Adds animal to game at random coordinates where it is possible (in game field bounds and empty field)
         /// </summary>
-        public void AddAnimal(Animal animal)
+        public void AddAnimal(params Animal[] animals)
         {
-            Random random = new Random();
-            int randomheight, randomwidth;
-            do
+            foreach (Animal animal in animals)
             {
-                randomheight = random.Next(GameEnvironment.Height);
-                randomwidth = random.Next(GameEnvironment.Width);
-            } while (GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
-            animal.WidthCoordinate = randomwidth;
-            animal.HeightCoordinate = randomheight;
-            GameAnimals.Add(animal);
+                Random random = new Random();
+                int randomheight, randomwidth;
+                do
+                {
+                    randomheight = random.Next(GameEnvironment.Height);
+                    randomwidth = random.Next(GameEnvironment.Width);
+                } while (GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
+                animal.WidthCoordinate = randomwidth;
+                animal.HeightCoordinate = randomheight;
+                GameAnimals.Add(animal);
+            }
         }
 
         /// <summary>

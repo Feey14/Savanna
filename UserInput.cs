@@ -1,4 +1,4 @@
-﻿using GameObjectsClassLibrary;
+﻿using AnimalTypeClassLibrary;
 using Savanna.Game;
 using System;
 

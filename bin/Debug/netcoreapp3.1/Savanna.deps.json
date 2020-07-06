@@ -23,16 +23,8 @@
         }
       },
       "AnimalTypeClassLibrary/1.0.0": {
-        "dependencies": {
-          "GameObjectsClassLibrary": "1.0.0"
-        },
         "runtime": {
           "AnimalTypeClassLibrary.dll": {}
-        }
-      },
-      "GameObjectsClassLibrary/1.0.0": {
-        "runtime": {
-          "GameObjectsClassLibrary.dll": {}
         }
       }
     }
@@ -49,11 +41,6 @@
       "sha512": ""
     },
     "AnimalTypeClassLibrary/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "GameObjectsClassLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
