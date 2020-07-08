@@ -1,7 +1,7 @@
-﻿using System;
+﻿using AnimalTypeClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using AnimalTypeClassLibrary;
 
 namespace Savanna.Game
 {
@@ -81,31 +81,30 @@ namespace Savanna.Game
             }
             for (int i = BabyAnimals.Count - 1; i >= 0; i--)
             {
-                var result = BabyAnimals[i].Move();
-                if (result != null)
-                    AddAnimal(result);
-                else if (BabyAnimals[i].RoundCount > 3 && result == null)
+                Animal babyanimal = BabyAnimals[i].Move();
+                if (babyanimal != null)
+                    AddAnimal(babyanimal);
+                else if (BabyAnimals[i].RoundCount > 3 && babyanimal == null)
                 {
                     BabyAnimals.RemoveAt(i);
                 }
             }
-        }
-
-        /// <summary>
-        /// Function that helps game to iterate collects data for animals to make their move, defines logic when to remove animal from the game
-        /// </summary>
-        private void AnimalIterating(int i)
-        {
-            //Finds Nearby animals withing Animal visionrange and that is not this animal
-            List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange
-                                                            && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange
-                                                            && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange
-                                                            && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange
-                                                            && animal != GameAnimals[i]);
-            GameAnimals[i].Move(nearbyanimals, BabyAnimals, GameEnvironment.Width, GameEnvironment.Height);
-            if (GameAnimals[i].Health < 0)
+            /// <summary>
+            /// Function that helps game to iterate collects data for animals to make their move, defines logic when to remove animal from the game
+            /// </summary>
+            void AnimalIterating(int i)
             {
-                GameAnimals.RemoveAt(i);
+                //Finds Nearby animals withing Animal visionrange and that is not this animal
+                List<Animal> nearbyanimals = GameAnimals.FindAll(animal => animal.WidthCoordinate <= GameAnimals[i].WidthCoordinate + GameAnimals[i].VisionRange
+                                                                && animal.WidthCoordinate >= GameAnimals[i].WidthCoordinate - GameAnimals[i].VisionRange
+                                                                && animal.HeightCoordinate <= GameAnimals[i].HeightCoordinate + GameAnimals[i].VisionRange
+                                                                && animal.HeightCoordinate >= GameAnimals[i].HeightCoordinate - GameAnimals[i].VisionRange
+                                                                && animal != GameAnimals[i]);
+                GameAnimals[i].Move(nearbyanimals, BabyAnimals, GameEnvironment.Width, GameEnvironment.Height);
+                if (GameAnimals[i].Health < 0)
+                {
+                    GameAnimals.RemoveAt(i);
+                }
             }
         }
     }

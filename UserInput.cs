@@ -10,7 +10,7 @@ namespace Savanna
         /// Captures user input key and adds animal that animal based on key input
         /// Checks if animal exists in AnimalDictionary
         /// </summary>
-        public void AddAnimal(GameEngine game)
+        public void AddAnimals(GameEngine game)
         {
             AnimalDictionary animaldictionary = new AnimalDictionary();
             ConsoleKeyInfo input;

@@ -1,5 +1,4 @@
-﻿using AnimalsClassLibrary;
-using AnimalTypeClassLibrary;
+﻿using AnimalTypeClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,6 @@ namespace Savanna
         public AnimalDictionary()
         {
             Assembly.LoadFrom("AnimalsClassLibrary.dll");
-            //Assembly.Load("AnimalsClassLibrary");
             CreateDictionary();
         }
 
@@ -26,9 +24,9 @@ namespace Savanna
         /// </summary>
         private void CreateDictionary()
         {
-            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(t => t.IsSubclassOf(typeof(Animal)) && !t.IsAbstract).Select(t => (Animal)Activator.CreateInstance(t));
+            IEnumerable<Animal> types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes()).Where(t => t.IsSubclassOf(typeof(Animal)) && !t.IsAbstract).Select(t => (Animal)Activator.CreateInstance(t));
 
-            foreach (var type in types)
+            foreach (Animal type in types)
             {
                 Animal animal = (Animal)Activator.CreateInstance(type.GetType());
                 AnimalTypes.Add(animal.AnimalSymbol, type.GetType());

@@ -18,7 +18,7 @@ namespace Savanna
             Console.Clear();
             game.PrintField();
             UserInput input = new UserInput();
-            input.AddAnimal(game);
+            input.AddAnimals(game);
             Console.ReadLine();
             timer.Stop();
             timer.Dispose();
