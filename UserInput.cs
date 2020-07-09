@@ -7,8 +7,9 @@ namespace Savanna
     public class UserInput
     {
         /// <summary>
-        /// Captures user input key and adds animal that animal based on key input
+        /// Captures user input
         /// Checks if animal exists in AnimalDictionary
+        /// adds animal based on key input
         /// </summary>
         public void AddAnimals(GameEngine game)
         {
