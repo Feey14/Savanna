@@ -1,13 +1,21 @@
-﻿using AnimalTypeClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AnimalTypeClassLibrary;
 
 namespace Savanna.Game
 {
     public class GameEngine
     {
+        /// <summary>
+        /// List of animals which are in current game
+        /// </summary>
         public List<Animal> GameAnimals { get; set; } = new List<Animal>();
+
+        /// <summary>
+        /// List of Babyanimals, animals which are not in the game yet but soon should be born
+        /// game does not display babyanimals
+        /// </summary>
         public List<BabyAnimal> BabyAnimals { get; set; } = new List<BabyAnimal>();
 
         /// <summary>
@@ -50,12 +58,12 @@ namespace Savanna.Game
         {
             foreach (Animal animal in animals)
             {
-                Random random = new Random();
+                SavannaRandomNumbers.SavannaRandomNumbers random = new SavannaRandomNumbers.SavannaRandomNumbers();
                 int randomheight, randomwidth;
                 do
                 {
-                    randomheight = random.Next(GameEnvironment.Height);
-                    randomwidth = random.Next(GameEnvironment.Width);
+                    randomheight = random.GetRandomNumber(GameEnvironment.Height);
+                    randomwidth = random.GetRandomNumber(GameEnvironment.Width);
                 } while (GameAnimals.Exists(an => an.WidthCoordinate == randomwidth && an.HeightCoordinate == randomheight));
                 animal.WidthCoordinate = randomwidth;
                 animal.HeightCoordinate = randomheight;

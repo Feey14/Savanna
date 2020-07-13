@@ -1,13 +1,17 @@
-﻿using AnimalTypeClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AnimalTypeClassLibrary;
 
 namespace Savanna
 {
     public class AnimalDictionary
     {
+        /// <summary>
+        /// Dictionary that holds every animal type and animal's unique char symbom
+        /// used for adding new animals to the game
+        /// </summary>
         public Dictionary<char, Type> AnimalTypes { get; set; } = new Dictionary<char, Type>();
 
         /// <summary>

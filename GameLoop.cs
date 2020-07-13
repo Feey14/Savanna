@@ -25,7 +25,7 @@ namespace Savanna
         }
 
         /// <summary>
-        /// Loops the game 1 time and prints it 
+        /// Loops the game 1 time and prints it
         /// </summary>
         private void LoopGame(Game.GameEngine game)
         {

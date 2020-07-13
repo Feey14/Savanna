@@ -1,6 +1,6 @@
-﻿using AnimalTypeClassLibrary;
+﻿using System;
+using AnimalTypeClassLibrary;
 using Savanna.Game;
-using System;
 
 namespace Savanna
 {
